@@ -4,27 +4,37 @@ env = Environment(loader=FileSystemLoader("templates"), autoescape=select_autoes
 
 template = env.get_template("plagiaattemplate.html")
 
-auteurs = ["auteur1", "auteur2", "auteur3", "auteur4"]
+auteurs = [
+    "Jef Baker",
+    "Jasper Jansens",
+    "Cas Van den Bergh",
+    "Vic Verhasselt",
+    "Jonas Kerings",
+]
 
-oude_opmerkingen = {
-    ("auteur1", "auteur2"): ["zelfde file"],
-    ("auteur1", "auteur3"): ["zelfde fout"],
-    ("auteur1", "auteur4"): ["zelfde spelfout: 'pithon'"],
-    ("auteur2", "auteur4"): ["zelfde syntax-fout", "zelfde file"],
-}
+# oude_opmerkingen = {
+#    ("auteur1", "auteur2"): ["zelfde file"],
+#    ("auteur1", "auteur3"): ["zelfde fout"],
+#    ("auteur1", "auteur4"): ["zelfde spelfout: 'pithon'"],
+#    ("auteur2", "auteur4"): ["zelfde syntax-fout", "zelfde file"],
+# }
 
 opmerkingen = {
     auteur[1]: {auteurin: [] for auteurin in auteurs[auteur[0] + 1 :]}
     for auteur in enumerate(auteurs[:-1])
 }
 
-opmerkingen["auteur1"]["auteur2"].append("zelfde file")
-opmerkingen["auteur1"]["auteur3"].append("zelfde fout")
-opmerkingen["auteur2"]["auteur4"].append("zelfde spelfout: 'pithon'")
-opmerkingen["auteur1"]["auteur4"].append("zelfde syntax-fout")
-opmerkingen["auteur1"]["auteur4"].append("zelfde syntax file")
+opmerkingen["Jef Baker"]["Jasper Jansens"].append("zelfde file")
+opmerkingen["Jef Baker"]["Cas Van den Bergh"].append("zelfde fout")
+opmerkingen["Jasper Jansens"]["Vic Verhasselt"].append("zelfde spelfout: 'pithon'")
+opmerkingen["Jef Baker"]["Vic Verhasselt"].append("zelfde syntax-fout")
+opmerkingen["Jef Baker"]["Vic Verhasselt"].append("zelfde syntax file")
+opmerkingen["Cas Van den Bergh"]["Jonas Kerings"].append("zelfde spelfout: 'aray'")
 
 
-# print(opmerkingen)
+aliassen = {auteur[1]: f"Student {auteur[0]}" for auteur in enumerate(auteurs, 1)}
 
-print(template.render(auteurs=auteurs, opmerkingen=opmerkingen))
+
+# print(aliassen_oud == aliassen_nieuw)
+
+print(template.render(auteurs=auteurs, opmerkingen=opmerkingen, aliassen=aliassen))

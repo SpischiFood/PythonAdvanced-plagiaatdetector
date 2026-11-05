@@ -60,13 +60,13 @@
         <tr>
           <th>combinatie</th>
           {% for auteur in auteurs %}
-          <th>{{ auteur }}</th>
+          <th>{{ aliassen[auteur] }}</th>
           {% endfor %}
         </tr>
       </thead>
       {% for rijauteur in auteurs[:-1] %}
       <tr>
-        <td>{{ rijauteur }}</td>
+        <td>{{ aliassen[rijauteur] }}</td>
         {% for kolomauteur in auteurs %}
         <td>
           {{ ', '.join(opmerkingen.get(rijauteur, "/").get(kolomauteur, "/")) or
