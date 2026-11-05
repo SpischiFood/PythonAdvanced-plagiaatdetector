@@ -56,17 +56,19 @@
   </head>
   <body>
     <table>
+      <thead>
+        <tr>
+          <th>combinatie</th>
+          {% for auteur in auteurs %}
+          <th>{{ auteur }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      {% for rijauteur in auteurs[:-1] %}
       <tr>
-        <th>combinatie</th>
-        {% for auteur in auteurs %}
-        <th>{{ auteur }}</th>
-        {% endfor %}
-      </tr>
-      {% for auteur in auteurs[:-1] %}
-      <tr>
-        <td>{{ auteur }}</td>
-        {% for auteur in auteurs %}
-        <td>overeenkomst</td>
+        <td>{{ rijauteur }}</td>
+        {% for kolomauteur in auteurs %}
+        <td>{{ ', '.join(opmerkingen.get((rijauteur, kolomauteur), '/')) }}</td>
         {% endfor %}
       </tr>
       {% endfor %}
