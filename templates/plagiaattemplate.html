@@ -68,7 +68,10 @@
       <tr>
         <td>{{ rijauteur }}</td>
         {% for kolomauteur in auteurs %}
-        <td>{{ ', '.join(opmerkingen.get((rijauteur, kolomauteur), '/')) }}</td>
+        <td>
+          {{ ', '.join(opmerkingen.get(rijauteur, "/").get(kolomauteur, "/")) or
+          "/" }}
+        </td>
         {% endfor %}
       </tr>
       {% endfor %}
