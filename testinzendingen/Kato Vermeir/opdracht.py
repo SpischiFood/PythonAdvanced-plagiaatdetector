@@ -1,1 +1,2 @@
-print("Welkom bij Python!")
+print("Welkom bij mijn Pythonprogramma!")
+# Print welkom

@@ -1,34 +1,10 @@
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from pathlib import Path
+import re
 
 env = Environment(loader=FileSystemLoader("templates"), autoescape=select_autoescape())
 
 template = env.get_template("plagiaattemplate.html")
-
-# hard_auteurs = [
-#    "Jef Baker",
-#    "Jasper Jansens",
-#    "Cas Van den Bergh",
-#    "Vic Verhasselt",
-#    "Jonas Kerings",
-# ]
-#
-# hard_opmerkingen = {
-#    auteur[1]: {auteurin: [] for auteurin in hard_auteurs[auteur[0] + 1 :]}
-#    for auteur in enumerate(hard_auteurs[:-1])
-# }
-#
-# hard_opmerkingen["Jef Baker"]["Jasper Jansens"].append("zelfde file")
-# hard_opmerkingen["Jef Baker"]["Cas Van den Bergh"].append("zelfde fout")
-# hard_opmerkingen["Jasper Jansens"]["Vic Verhasselt"].append("zelfde spelfout: 'pithon'")
-# hard_opmerkingen["Jef Baker"]["Vic Verhasselt"].append("zelfde syntax-fout")
-# hard_opmerkingen["Jef Baker"]["Vic Verhasselt"].append("zelfde syntax file")
-# hard_opmerkingen["Cas Van den Bergh"]["Jonas Kerings"].append("zelfde spelfout: 'aray'")
-#
-#
-# hard_aliassen = {
-#    auteur[1]: f"Student {auteur[0]}" for auteur in enumerate(hard_auteurs, 1)
-# }
 
 
 # print("Geef een directory van een opdracht in: ")
@@ -61,5 +37,15 @@ else:
                 opmerkingen[auteurrij[1]][auteurkolom].append(
                     f"identieke file: {file_auteur1[0].name}"
                 )
+            else:
+                inhoud1 = file_auteur1[0].read_text(encoding="utf-8")
+                inhoud2 = file_auteur2[0].read_text(encoding="utf-8")
+                comments1 = re.findall(r"#[ \t]*(?P<comment>.+)", inhoud1)
+                comments2 = re.findall(r"#[ \t]*(?P<comment>.+)", inhoud2)
+                for comment in comments1:
+                    if comment in comments2:
+                        opmerkingen[auteurrij[1]][auteurkolom].append(
+                            f"identieke comment: {comment}"
+                        )
 
     print(template.render(auteurs=auteurs, opmerkingen=opmerkingen, aliassen=aliassen))

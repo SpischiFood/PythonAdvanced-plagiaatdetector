@@ -1,1 +1,1 @@
-print("Dit is de hoofdopdracht.")
+print("Dit is de hooftopdracht.")
